@@ -54,7 +54,7 @@ class Order(db.Model):
     __tablename__ = 'orders'
     order_id = db.Column(db.Integer, primary_key=True)
     buyer_id = db.Column(db.Integer, db.ForeignKey('buyers.buyer_id'))
-    order_date = db.Column(db.Stirng(100))
+    order_date = db.Column(db.DateTime(timezone))
     status = db.Column(db.String(101))
     total_amount = db.Column(db.Float)
 
@@ -79,4 +79,4 @@ class Review(db.Models):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     rating = db.Column(db.Float)
     comment = db.Column(db.String(500))
-    date = db.Column(db.String(100))
+    date = db.Column(db.DateTime(timezone=True))
