@@ -5,7 +5,8 @@ db = SQLAlchemy(app)
 
 #Create function to create app and return the app object
 
-#app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 #config database
 #register blueprints
 #create database
