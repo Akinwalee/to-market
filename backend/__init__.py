@@ -23,6 +23,6 @@ def create_app():
 
 
 def create_db(app):
-    if not path.exists('backend' + 'tomarket'):
+    if not os.path.exists('backend' + 'tomarket'):
         db.create_all(app=app)
         print("Created Database")
