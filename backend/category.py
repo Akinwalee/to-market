@@ -1,5 +1,5 @@
 from flask import jsonify
-from category import Category
+from models import Categories
 from . import db
 
 
@@ -10,16 +10,16 @@ class Category:
         self.description = description
 
     def create_category(self):
-        category = Category.query.filter_by(id=self.id).first()
+        category = Categories.query.filter_by(id=self.id).first()
         if category:
             return jsonify({'message': 'Category already exists'}), 400
-        new_category = Category(name=self.name)
+        new_category = Categories(name=self.name)
         db.session.add(new_category)
         db.session.commit()
         return jsonify({'message': 'Category created successfully', 'category': new_category.to_json()}), 201
     
     def update_category(self):
-        category = Category.query.filter_by(id=self.id).first()
+        category = Categories.query.filter_by(id=self.id).first()
         if not category:
             return jsonify({'message': 'Category not found'}), 404
         category.name = self.name
@@ -27,7 +27,7 @@ class Category:
         return jsonify({'message': 'Category updated successfully', 'category': category.to_json()}), 200
     
     def delete_category(self):
-        category = Category.query.filter_by(id=self.id).first()
+        category = Categories.query.filter_by(id=self.id).first()
         if not category:
             return jsonify({"message": "Category not found"}), 404
         
@@ -37,7 +37,7 @@ class Category:
     
     
     def get_categories(self):
-        categories = Category.query.all()
+        categories = Categories.query.all()
         return jsonify([category.to_json() for category in categories]), 200
 
 

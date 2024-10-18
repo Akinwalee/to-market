@@ -1,7 +1,6 @@
 from models import Products
 from flask import jsonify
-from category import Category
-from farmer import Farmer
+from models import Categories, Farmers
 from . import db
 class Product():
     def __init__(self, id, name=None, description=None, price=None, stock_quantity=None, category_id=None, farmer_id=None):
@@ -14,16 +13,16 @@ class Product():
         self.farmer_id = farmer_id
 
     def create_product(self):
-        category = Category.query.filter_by(id=self.category_id).first()
+        category = Categories.query.filter_by(id=self.category_id).first()
         if not category:
             return jsonify({"message": "Category not found"}), 404
-        farmer = Farmer.query.filter_by(id=self.farmer_id).first()
+        farmer = Farmers.query.filter_by(id=self.farmer_id).first()
         if not farmer:
             return jsonify({"message": "Farmer not found"}), 404
-        product = Product.query.filter_by(id=self.id).first()
+        product = Products.query.filter_by(id=self.id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
-        new_product = Product(
+        new_product = Products(
             name=self.name, 
             description=self.description, 
             price=self.price, 
@@ -37,14 +36,14 @@ class Product():
         return jsonify({"message": "Product created successfully"}), 201
     
     def update_product(self):
-        category = Category.query.filter_by(id=self.category_id).first()
+        category = Categories.query.filter_by(id=self.category_id).first()
         if not category:
             return jsonify({"message": "Category not found"}), 404
-        farmer = Farmer.query.filter_by(id=self.farmer_id).first()
+        farmer = Farmers.query.filter_by(id=self.farmer_id).first()
         if not farmer:
             return jsonify({"message": "Farmer not found"}), 404
         
-        product = Product.query.filter_by(id=self.id).first()
+        product = Products.query.filter_by(id=self.id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
         
@@ -75,7 +74,7 @@ class Product():
 
     
     def delete_product(self):
-        product = Product.query.filter_by(id=self.id).first()
+        product = Products.query.filter_by(id=self.id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
         db.session.delete(product)
@@ -85,11 +84,11 @@ class Product():
     
     
     def get_products(self):
-        products = Product.query.all()
+        products = Products.query.all()
         result = []
         for product in products:
-            category = Category.query.filter_by(id=product.category_id).first()
-            farmer = Farmer.query.filter_by(id=product.farmer_id).first()
+            category = Categories.query.filter_by(id=product.category_id).first()
+            farmer = Farmers.query.filter_by(id=product.farmer_id).first()
             result.append({
                 "id": product.id,
                 "name": product.name,
@@ -102,13 +101,13 @@ class Product():
         return jsonify(result), 200
     
     def get_product_by_id(self, product_id):
-        product = Product.query.filter_by(id=product_id).first()
+        product = Products.query.filter_by(id=product_id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
-        category = Category.query.filter_by(id=product.category_id).first()
+        category = Categories.query.filter_by(id=product.category_id).first()
         if not category:
             return jsonify({"message": "Category not found"}), 404
-        farmer = Farmer.query.filter_by(id=product.farmer_id).first()
+        farmer = Farmers.query.filter_by(id=product.farmer_id).first()
         if not farmer:
             return jsonify({"message": "Farmer not found"}), 404
         result = {
