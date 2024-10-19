@@ -11,7 +11,7 @@ class Users(db.Model):
 
     admin = db.relationship('Admins', uselist=False, backref='user')
     buyer = db.relationship('Buyers', uselist=False, backref='user')
-    farner = db.relationship('Farmers', uselist=False, backref='user')
+    farmer = db.relationship('Farmers', uselist=False, backref='user')
 
 class Admins(db.Model):
     __tablename__ = 'admin'

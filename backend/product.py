@@ -13,13 +13,13 @@ class Product():
         self.farmer_id = farmer_id
 
     def create_product(self):
-        category = Categories.query.filter_by(id=self.category_id).first()
+        category = Categories.query.filter_by(category_id=self.category_id).first()
         if not category:
             return jsonify({"message": "Category not found"}), 404
-        farmer = Farmers.query.filter_by(id=self.farmer_id).first()
+        farmer = Farmers.query.filter_by(farmer_id=self.farmer_id).first()
         if not farmer:
             return jsonify({"message": "Farmer not found"}), 404
-        product = Products.query.filter_by(id=self.id).first()
+        product = Products.query.filter_by(product_id=self.id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
         new_product = Products(
@@ -36,14 +36,14 @@ class Product():
         return jsonify({"message": "Product created successfully"}), 201
     
     def update_product(self):
-        category = Categories.query.filter_by(id=self.category_id).first()
+        category = Categories.query.filter_by(category_id=self.category_id).first()
         if not category:
             return jsonify({"message": "Category not found"}), 404
-        farmer = Farmers.query.filter_by(id=self.farmer_id).first()
+        farmer = Farmers.query.filter_by(farmer_id=self.farmer_id).first()
         if not farmer:
             return jsonify({"message": "Farmer not found"}), 404
         
-        product = Products.query.filter_by(id=self.id).first()
+        product = Products.query.filter_by(product_id=self.id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
         
@@ -74,7 +74,7 @@ class Product():
 
     
     def delete_product(self):
-        product = Products.query.filter_by(id=self.id).first()
+        product = Products.query.filter_by(product_id=self.id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
         db.session.delete(product)
@@ -87,37 +87,37 @@ class Product():
         products = Products.query.all()
         result = []
         for product in products:
-            category = Categories.query.filter_by(id=product.category_id).first()
-            farmer = Farmers.query.filter_by(id=product.farmer_id).first()
+            category = Categories.query.filter_by(category_id=product.category_id).first()
+            farmer = Farmers.query.filter_by(product_id=product.farmer_id).first()
             result.append({
-                "id": product.id,
+                "id": product.product_id,
                 "name": product.name,
                 "description": product.description,
                 "price": product.price,
                 "stock_qunatity": product.stock_qunatity,
                 "category": category.name,
-                "farmer": farmer.name
+                "farmer": farmer.farm_name
             })
         return jsonify(result), 200
     
     def get_product_by_id(self, product_id):
-        product = Products.query.filter_by(id=product_id).first()
+        product = Products.query.filter_by(product_id=product_id).first()
         if not product:
             return jsonify({"message": "Product not found"}), 404
-        category = Categories.query.filter_by(id=product.category_id).first()
+        category = Categories.query.filter_by(category_id=product.category_id).first()
         if not category:
             return jsonify({"message": "Category not found"}), 404
-        farmer = Farmers.query.filter_by(id=product.farmer_id).first()
+        farmer = Farmers.query.filter_by(farmer_id=product.farmer_id).first()
         if not farmer:
             return jsonify({"message": "Farmer not found"}), 404
         result = {
-            "id": product.id,
+            "id": product.product_id,
             "name": product.name,
             "description": product.description,
             "price": product.price,
             "stock_qunatity": product.stock_qunatity,
             "category": category.name,
-            "farmer": farmer.name
+            "farmer": farmer.farm_name
         }
         return jsonify(result), 200
     
